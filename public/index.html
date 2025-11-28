@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Instagram Vidio Downloader</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container logo-header">
+    <img src="instagram.png" class="logo" />
+    <h1>Instagram Vidio Downloader</h1>
+
+    <p>Tempelkan URL posting Instagram (post/reel) lalu klik Download.</p>
+
+    <form id="form">
+      <input id="url" type="text" placeholder="https://www.instagram.com/p/..." />
+      <button type="submit">Download</button>
+    </form>
+
+    <div id="status"></div>
+
+<div class="instructions">
+    <h3>Cara Menggunakan:</h3>
+    <ol>
+        <li>Open the Instagram app or website and log in to your account.</li>
+        <li>Find and copy the Instagram post link (Photo, Video, Reels, Story, Profile) you want to download.</li>
+        <li>Return to Snapinsta, paste the copied URL into the input box, and press the "Download" button.</li>
+        <li>Wait for our server to extract the data and then save the photo or video to your device.</li>
+        <li>Done. Open the photo or video you just downloaded on your device and enjoy it.</li>
+    </ol>
+</div>
+
+
+  <script>
+    const form = document.getElementById('form');
+    const status = document.getElementById('status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const u = document.getElementById('url').value.trim();
+      if (!u) return status.textContent = 'Masukkan URL Instagram.';
+      status.textContent = 'Mempersiapkan...';
+
+      // buka endpoint /download sehingga browser akan men-trigger download
+      const downloadUrl = '/download?url=' + encodeURIComponent(u);
+      // membuat link dan klik otomatis
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = '';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      status.textContent = 'Jika download tidak otomatis, klik link ini:';
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.textContent = 'Unduh media';
+      status.innerHTML = '';
+      status.appendChild(link);
+    });
+  </script>
+</body>
+</html>
